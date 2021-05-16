@@ -105,7 +105,7 @@ std::vector <GameObject*> Playground::neighbourhood(int distance, GameObject* go
 				{
 					temp.push_back(area[i][j]);
 				}
-			}
+			} 
 		}
 	}
 	return temp;
