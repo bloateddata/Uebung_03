@@ -101,7 +101,7 @@ std::vector <GameObject*> Playground::neighbourhood(int distance, GameObject* go
 		{
 			if (!isFree(i,j))
 			{
-				if (area[i][j]->getPosition().distanceManhattan(new Position(go_ptr->getPosition()))<= distance)
+				if (area[i][j]->getPosition().distanceManhattan(new Position(go_ptr->getPosition())) <= distance)
 				{
 					temp.push_back(area[i][j]);
 				}
@@ -110,6 +110,7 @@ std::vector <GameObject*> Playground::neighbourhood(int distance, GameObject* go
 	}
 	return temp;
 }
+
 std::vector <Position> Playground::neighbourhood(int distance, Position* pos_ptr)
 {
 	std::vector <Position> temp;

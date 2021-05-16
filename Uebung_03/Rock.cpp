@@ -84,18 +84,12 @@ void Rock::explosionAnimation(int radius)
 	{
 		if (object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_GROUND)
 		{
-			playground->removeGameObject(object.at(i));
-
+			//playground->removeGameObject(object.at(i));
+			playground->addGameObject(new GameObject(object.at(i)->getPosition(), 'D', object.at(i)->getPlayground()));
 		}
 		else if (object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_PLAYER_1 || object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_PLAYER_2)
 		{
-			if (true)
-			{
-				//TODO: PLAYERCHECK
-			}
-			((Player*)object.at(i))->decreaseLives();
-			
-
+			//((Player*)object.at(i))->decreaseLives();
 		}
 
 	//playground->getSimpleScreen()->clear();
