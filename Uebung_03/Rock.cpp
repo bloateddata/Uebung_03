@@ -47,7 +47,7 @@ void Rock::move()
 
 	getPlayground()->getSimpleScreen()->gotoxy(0, 42);
 	std::cout << "Next - " << new_p.to_string() << std::endl;
-	//system("pause");
+
 
 	if (position.getX() == new_p.getX() || position.getY() == new_p.getY())
 		return;
@@ -61,22 +61,20 @@ void Rock::move()
 
 			while (new_p.getY() > CONFIGURATION::PLAYGROUND_YSIZE)
 			{
-				new_p.setY(new_p.getY() -1);
+				new_p.setY(new_p.getY() - 1);
 			}
 	}
 
 	if (playground->isFree(new_p.getX(), new_p.getY()))
 	{
-
 		playground->removeGameObject(this);
 		this->setPosition(new_p);
-		getPlayground()->getSimpleScreen()->gotoxy(0, 43);
-		std::cout << "Type - " << this->getType() << std::endl;
 		playground->addGameObject(this);
-		
 	}
+	else
+	{
 		explosionAnimation(CONFIGURATION::BOMB_RADIUS);
-
+	}
 }
 
 void Rock::explosionAnimation(int radius)
@@ -102,4 +100,9 @@ void Rock::explosionAnimation(int radius)
 		playground->getSimpleScreen()->setChar(pos.at(i).getX() + 5,
 		pos.at(i).getY() + 1, CONFIGURATION::PLAYGROUND_BACKGROUND);
 	}
+	((Player*)this->owner_ptr)->setAway(false);
+
+	this->position.setX(owner_ptr->getPosition().getX());
+	this->position.setY(owner_ptr->getPosition().getY() - 1);
+	
 }	

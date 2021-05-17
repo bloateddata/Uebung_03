@@ -14,23 +14,22 @@
 
 void Game::drawLogo()	//150x25
 {
-	std::string temp0 = "   *   )               (    (      (  (                       ";
-	std::string temp1 = " ` )  /(   (           )\   )\     )\))(   '    )   (         ";
-	std::string temp2 = "  ( )(_))  )(     (   ((_) ((_)   ((_)()\ )  ( /(   )(    (   ";
-	std::string temp3 = " (_(_())  (()\    )\   _    _     _(())\_)() )(_)) (()\   )\  ";
-	std::string temp4 = " |_   _|   ((_)  ((_) | |  | |    \ \((_)/ /((_)_   ((_) ((_) ";
-	std::string temp5 = "   | |    | '_| / _ \ | |  | |     \ \/\/ / / _` | | '_| (_-< ";
-	std::string temp6 = "   |_|    |_|   \___/ |_|  |_|      \_/\_/  \__,_| |_|   /__/ ";
+	
+	std::vector<std::string> str;
+	str.push_back( "  *   )              (    (       (  (                          \n");
+	str.push_back("` )  /    (          )\\    \\      )\\))(   '    )                \n");
+	str.push_back(" ( ) _))  )(     (  ( _) ( _)    ( _)()\\ )  ( /    )(    (      \n");
+	str.push_back(" _(_())  (  )\\   )\\   _    _     _( ))\\_ () )(_)) ( )\\    \\     \n");
+	str.push_back("|_   _|  (_(_)  ((_) | |  | |    \\ \\( _)/ /((_ _   ( _) ((_)   \n");
+	str.push_back("  | |    | '_| / _ \\ | |  | |     \\ \\/\\/ / / _` | | '_| (_-<    \n");
+	str.push_back("  |_|    |_|   \\___/ |_|  |_|      \\_/\\_/  \\__,_| |_|   /__/    \n");
+	
+	int y = CONFIGURATION::PLAYGROUND_YSIZE + CONFIGURATION::PLAYGROUND_BORDERWIDTH + CONFIGURATION::PLAYGROUND_OFFSETY + 1;
 
-	std::vector<std::string> temp = { temp0,  temp1 , temp2 , temp3 , temp4 , temp5 , temp6 };
-
-
-	for (int i = 0; i < temp.size(); i++)
+	for (size_t i = 0; i < str.size(); i++)
 	{
-		for (int j = 0; j < temp[i].length(); j++)
-		{
-			s->setChar((CONFIGURATION::PLAYGROUND_XSIZE / 2 - temp[i].length() / 2) + j , (CONFIGURATION::PLAYGROUND_YSIZE + CONFIGURATION::PLAYGROUND_BORDERWIDTH + i + 3), temp[i][j]);
-		}
+		s->gotoxy(50, y++);
+		std::cout << str[i];
 	}
 
 }
@@ -55,7 +54,7 @@ void Game::drawPlayerStats(int player_number)
 	std::vector<std::string> player0 = Split_String(player[0]->to_string());
 	std::vector<std::string> player1 = Split_String(player[1]->to_string());
 
-
+	int y = CONFIGURATION::PLAYGROUND_BORDERWIDTH + CONFIGURATION::PLAYGROUND_OFFSETY + 1;
 	//Player 0
 	for (int i = 0; i < player0.size(); i++)
 	{
@@ -78,6 +77,27 @@ void Game::drawPlayerStats(int player_number)
 void Game::drawResult()
 {
 	Game::s->clear();
+	std::vector<std::string> str;
+	
+	if (player[0]->getLives()>player[1]->getLives())
+	{
+		str.push_back("Player " + std::to_string(player[0]->getPlayerNumber()) + " has won the game\n");
+		str.push_back("Lives left: " + std::to_string(player[0]->getLives())+"\n");
+	}
+	else
+	{
+		str.push_back("Player " + std::to_string(player[1]->getPlayerNumber()) + " has won the game\n");
+		str.push_back("Lives left: " + std::to_string(player[1]->getLives())+"\n");
+	}
+	
+	int y = 10;
+
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		s->gotoxy(CONFIGURATION::PLAYGROUND_XSIZE/2, y++);
+		std::cout << str[i];
+	}
+
 }
 
 Game::Game()

@@ -84,16 +84,16 @@ void Player::decreaseLives()
 
 std::string Player::to_string()
 {
-	std::string temp = "***********************\n* Troll\t";
-	temp += std::to_string(getPlayerNumber()) + "\t-\t" + (player_number == 1 ? "X" : "O") + "\t\t\t\t\t\t\t\t\t*\n";
-	temp += "***********************\n";
-	temp += rock_away ? "* Status : ROCK NOT READY *\n" : "* Status : ROCK READY *\n";
-	temp += "*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n";
-	temp += "* Angle: " + std::to_string(angle) + "\t\t\t\t\t\t\t\t\t\t\t*\n";
-	temp += "* Power: " + std::to_string(power) + "\t\t\t\t\t\t\t\t\t\t*\n";
-	temp += "*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n";
-	temp += "* Lives: " + std::to_string(getLives()) + "\t\t\t\t\t\t\t\t\t\t\t\t*\n";
-	temp += "***********************\n";
+	std::string temp = "***************************\n";
+	temp += "*		 Troll\t" + std::to_string(getPlayerNumber()) + "\t-\t" + (player_number == 1 ? "X" : "O") + "           *\n";
+	temp += "***************************\n";
+	temp += rock_away ? "* Status : ROCK NOT READY *\n" : "*   Status : ROCK READY   *\n";
+	temp += "*                         *\n";
+	temp += "*   Angle: " + std::to_string(angle) + "\t\t\t\t\t\t\t\t\t\t\t\t\t*\n";
+	temp += "*	  Power: " + std::to_string(power) + "\t\t\t\t\t\t\t\t\t\t\t\t*\n";
+	temp += "*\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n";
+	temp += "*		 Lives: " + std::to_string(getLives()) + "\t\t\t\t\t\t\t\t\t\t\t\t\t\t*\n";
+	temp += "***************************\n";
 	return temp;
 };
 
