@@ -56,7 +56,7 @@ bool Player::action(int input)
 		if (!rock_away)
 		{
 			((Rock*)rock_ptr)->setYSpeed(-0.1 * (double)power * sin((double)angle * 3.14159 / 180.0));
-			((Rock*)rock_ptr)->setXSpeed(0.1 * (double)power * cos((double)angle * 3.14159 / 180.0) * (player_number == 1 ? 1.0 : -1.0));
+			((Rock*)rock_ptr)->setXSpeed(-0.1 * (double)power * cos((double)angle * 3.14159 / 180.0) * (player_number == 1 ? 1.0 : -1.0));
 			rock_away = true;
 			playground->addGameObject(rock_ptr);
 		}
@@ -114,7 +114,7 @@ bool Player::isAway()
 	return rock_away;
 }
 
-void Player::setAway(bool)
+void Player::setAway(bool value)
 {
-	rock_away = !rock_away;
+	rock_away = value;
 }

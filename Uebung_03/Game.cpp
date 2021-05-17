@@ -151,11 +151,11 @@ void Game::run()
 	{
 		turn(0);
 		turn(1);
-		pg->draw();
 		drawLogo();
 		drawPlayerStats(0);
 		drawPlayerStats(1);
 		drawLegend();
+		pg->draw();
 	}
 	drawResult();
 }

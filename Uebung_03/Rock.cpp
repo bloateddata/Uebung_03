@@ -31,8 +31,8 @@ void Rock::setYSpeed(double yspeed)
 
 void Rock::proceed()
 {
-	setXSpeed(xspeed + (CONFIGURATION::GRAVITY * 0.1));
-	setYSpeed(yspeed +(CONFIGURATION::WIND * 0.1));
+	xspeed += (CONFIGURATION::WIND * 0.05);
+	yspeed += (CONFIGURATION::GRAVITY * 0.05);
 	move();
 }
 
@@ -41,13 +41,11 @@ void Rock::move()
 	Position new_p = getPosition();
 	new_p.setX(new_p.getX() + 0.1 * xspeed);                
 	new_p.setY(new_p.getY() + 0.1 * yspeed);                  
-	getPlayground()->getSimpleScreen()->gotoxy(0, 40);
-	std::cout << "                                    " << std::endl;
-	getPlayground()->getSimpleScreen()->gotoxy(0, 40);
+
+	getPlayground()->getSimpleScreen()->gotoxy(0, 41);
 	std::cout << "Rock - " << getPosition().to_string() << std::endl;
-	getPlayground()->getSimpleScreen()->gotoxy(0, 41);
-	std::cout << "                                    " << std::endl;
-	getPlayground()->getSimpleScreen()->gotoxy(0, 41);
+
+	getPlayground()->getSimpleScreen()->gotoxy(0, 42);
 	std::cout << "Next - " << new_p.to_string() << std::endl;
 	//system("pause");
 
@@ -56,45 +54,52 @@ void Rock::move()
 
 	if (!playground->inbound(new_p.getX(), new_p.getY()))
 	{
-		while (new_p.getX() > CONFIGURATION::PLAYGROUND_XSIZE-1)
-		{
-			new_p.setX(new_p.getX() - 1);
-		}
-		
-		while (new_p.getY() > CONFIGURATION::PLAYGROUND_YSIZE)
-		{
-			setPosition(Position(new_p.getX(), new_p.getY()-1));
-		}
+			while (new_p.getX() > CONFIGURATION::PLAYGROUND_XSIZE-1)
+			{
+				new_p.setX(new_p.getX() - 1);
+			}
+
+			while (new_p.getY() > CONFIGURATION::PLAYGROUND_YSIZE)
+			{
+				new_p.setY(new_p.getY() -1);
+			}
 	}
+
 	if (playground->isFree(new_p.getX(), new_p.getY()))
 	{
-		playground->removeGameObject(owner_ptr);
-		owner_ptr->setPosition(new_p);
-		playground->addGameObject(owner_ptr);
-		explosionAnimation(CONFIGURATION::BOMB_RADIUS);
+
+		playground->removeGameObject(this);
+		this->setPosition(new_p);
+		getPlayground()->getSimpleScreen()->gotoxy(0, 43);
+		std::cout << "Type - " << this->getType() << std::endl;
+		playground->addGameObject(this);
+		
 	}
+		explosionAnimation(CONFIGURATION::BOMB_RADIUS);
 
 }
 
 void Rock::explosionAnimation(int radius)
 {
-	std::vector<GameObject*> object = playground->neighbourhood(radius, owner_ptr);
+	std::vector<GameObject*> object = playground->neighbourhood(radius, this);
+	std::vector<Position> pos = playground->neighbourhood(radius, new Position(this->getPosition()));
 
 	for (int i = 0; i < (int)object.size(); i++)
 	{
 		if (object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_GROUND)
 		{
-			//playground->removeGameObject(object.at(i));
-			playground->addGameObject(new GameObject(object.at(i)->getPosition(), 'D', object.at(i)->getPlayground()));
+			playground->removeGameObject(object.at(i));
+			//playground->addGameObject(new GameObject(object.at(i)->getPosition(), 'D', object.at(i)->getPlayground()));
 		}
 		else if (object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_PLAYER_1 || object.at(i)->getType() == CONFIGURATION::GAMEOBJECT_PLAYER_2)
 		{
-			//((Player*)object.at(i))->decreaseLives();
+			((Player*)object.at(i))->decreaseLives();
 		}
-
-	//playground->getSimpleScreen()->clear();
 	}
-
 	
-
+	for (int i = 0; i < (int)pos.size(); i++)
+	{
+		playground->getSimpleScreen()->setChar(pos.at(i).getX() + 5,
+		pos.at(i).getY() + 1, CONFIGURATION::PLAYGROUND_BACKGROUND);
+	}
 }	
